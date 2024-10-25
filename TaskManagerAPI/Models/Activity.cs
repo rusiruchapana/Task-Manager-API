@@ -18,4 +18,25 @@ public class Activity
     
     
     public bool IsCompleted { get; set; }
+    
+    
+    //Full args & No args constructors.
+    public Activity()
+    {
+    }
+
+    public Activity(int id, string? title, string? description, bool isCompleted)
+    {
+        Id = id;
+        Title = title;
+        Description = description;
+        IsCompleted = isCompleted;
+    }
+
+    public Activity(string? title, string? description, bool isCompleted)
+    {
+        Title = title;
+        Description = description;
+        IsCompleted = isCompleted;
+    }
 }

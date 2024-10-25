@@ -1,14 +1,21 @@
 using Microsoft.EntityFrameworkCore;
 using TaskManagerAPI.Data;
+using TaskManagerAPI.Repositories;
+using TaskManagerAPI.Repositories.Interface;
+using TaskManagerAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddControllers();
+
 builder.Services.AddControllers();
+builder.Services.AddScoped<ActivityService>();
+builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 // Register DbContext with MySQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -46,6 +53,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+//Map controllers.
 app.MapControllers();
 
 app.Run();
