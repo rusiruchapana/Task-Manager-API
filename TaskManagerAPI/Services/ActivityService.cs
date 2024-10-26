@@ -69,4 +69,10 @@ public class ActivityService
         
         return activityDtoResponse;
     }
+
+    public async Task<bool> DeleteActivity(int id)
+    {
+        bool check = await _activityRepository.DeleteActivity(id);
+        return check;
+    }
 }

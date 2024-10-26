@@ -47,7 +47,19 @@ public class ActivityController: ControllerBase
         ActivityDTOResponse activityDtoResponse = await _activityService.UpdateActivity(id , activityDtoRequest);
         return Ok(activityDtoResponse);
     }
-    
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteActivity(int id)
+    {
+        bool isDeleted = await _activityService.DeleteActivity(id);
+
+        if (isDeleted)
+            return NoContent();
+        
+        else
+            return NotFound();
+    }
+
 
 
 

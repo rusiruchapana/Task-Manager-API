@@ -10,4 +10,5 @@ public interface IActivityRepository
     Task<IEnumerable<Activity>> GetAllActivities();
     Task<Activity> GetActivityById(int id);
     Task<Activity> UpdateActivity(int id, ActivityDTORequest activityDtoRequest);
+    Task<bool> DeleteActivity(int id);
 }

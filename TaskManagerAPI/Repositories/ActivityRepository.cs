@@ -56,4 +56,22 @@ public class ActivityRepository: IActivityRepository
         
         return oldActivity;
     }
+
+    public async Task<bool> DeleteActivity(int id)
+    {
+        Activity activity = await _context.Activities.FindAsync(id);
+        
+        if (activity == null)
+        {
+            return false;
+        }
+        else
+        {
+            _context.Activities.Remove(activity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
+    }
 }
