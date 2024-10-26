@@ -7,26 +7,32 @@ namespace TaskManagerAPI.Services;
 
 public class ActivityService
 {
+    //DI
     private readonly IActivityRepository _activityRepository;
 
     public ActivityService(IActivityRepository activityRepository)
     {
         _activityRepository = activityRepository;
     }
-
+    
+    //POST Rest API.
     public async Task<ActivityDTOResponse> AddActivity(ActivityDTORequest activityDtoRequest)
     {
-        Activity activity = new Activity(
-            activityDtoRequest.Title,
-            activityDtoRequest.Description,
-            activityDtoRequest.IsCompleted
+        Activity activity = await _activityRepository.AddActivity(activityDtoRequest);
+
+        ActivityDTOResponse activityDtoResponse = new ActivityDTOResponse
+        (
+            activity.Id,
+            activity.Title,
+            activity.Description,
+            activity.IsCompleted
         );
         
-        ActivityDTOResponse activityDtoResponse = await _activityRepository.AddActivity(activity);
         return activityDtoResponse;
     }
 
-
+    
+    //GET Rest API.
     public async Task<IEnumerable<ActivityDTOResponse>> GetAllActivities()
     {
         IEnumerable<Activity> activities = await _activityRepository.GetAllActivities();
@@ -43,6 +49,7 @@ public class ActivityService
         return activityDtoResponses;
     }
 
+    //GET Rest API for get one activity.
     public async Task<ActivityDTOResponse> GetActivityById(int id)
     {
         Activity activity = await _activityRepository.GetActivityById(id);
@@ -56,6 +63,7 @@ public class ActivityService
         return activityDtoResponse;
     }
 
+    //UPDATE Rest API.
     public async Task<ActivityDTOResponse> UpdateActivity(int id, ActivityDTORequest activityDtoRequest)
     {
         Activity activity = await _activityRepository.UpdateActivity(id, activityDtoRequest);
@@ -70,9 +78,12 @@ public class ActivityService
         return activityDtoResponse;
     }
 
+    //DELETE Rest API.
     public async Task<bool> DeleteActivity(int id)
     {
         bool check = await _activityRepository.DeleteActivity(id);
         return check;
     }
+
+    
 }

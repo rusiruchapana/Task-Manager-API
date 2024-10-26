@@ -9,6 +9,7 @@ namespace TaskManagerAPI.Repositories;
 
 public class ActivityRepository: IActivityRepository
 {
+    //DI
     private readonly ApplicationDbContext _context;
 
     public ActivityRepository(ApplicationDbContext context)
@@ -16,34 +17,37 @@ public class ActivityRepository: IActivityRepository
         _context = context;
     }
 
-    public async Task<ActivityDTOResponse> AddActivity(Activity activity)
+    //POST Rest API.
+    public async Task<Activity> AddActivity(ActivityDTORequest activityDtoRequest)
     {
-        var entry = _context.Activities.Add(activity);
-        await _context.SaveChangesAsync();
-
-        Activity addedActivity = entry.Entity;
-        ActivityDTOResponse response = new ActivityDTOResponse(
-            addedActivity.Id,
-            addedActivity.Title,
-            addedActivity.Description,
-            addedActivity.IsCompleted
+        Activity activity = new Activity
+        (
+            activityDtoRequest.Title,
+            activityDtoRequest.Description,
+            activityDtoRequest.IsCompleted
         );
         
-        return response;
+        _context.Activities.Add(activity);
+        await _context.SaveChangesAsync();
+        
+        return activity;
     }
 
+    //GET Rest API.
     public async Task<IEnumerable<Activity>> GetAllActivities()
     {
          IEnumerable<Activity> activities = await _context.Activities.ToListAsync();
          return activities;
     }
 
+    //GET Rest API for get one activity.
     public async Task<Activity> GetActivityById(int id)
     {
         Activity activity = await _context.Activities.FindAsync(id);
         return activity;
     }
 
+    //UPDATE Rest API.
     public async Task<Activity> UpdateActivity(int id, ActivityDTORequest activityDtoRequest)
     {
         Activity oldActivity = await _context.Activities.FindAsync(id);
@@ -57,6 +61,8 @@ public class ActivityRepository: IActivityRepository
         return oldActivity;
     }
 
+    
+    //DELETE Rest API.
     public async Task<bool> DeleteActivity(int id)
     {
         Activity activity = await _context.Activities.FindAsync(id);
@@ -74,4 +80,6 @@ public class ActivityRepository: IActivityRepository
 
 
     }
+
+    
 }

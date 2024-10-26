@@ -11,6 +11,7 @@ namespace TaskManagerAPI.Controllers;
 [ApiController]
 public class ActivityController: ControllerBase
 {
+    //DI
     private readonly ActivityService _activityService;
 
     public ActivityController(ActivityService activityService)
@@ -18,14 +19,17 @@ public class ActivityController: ControllerBase
         _activityService = activityService;
     }
 
+    
+    //POST Rest API.
     [HttpPost]
     public async Task<ActionResult<ActivityDTOResponse>> AddActivity(ActivityDTORequest activityDtoRequest)
     {
-        var createdActivity = await _activityService.AddActivity(activityDtoRequest);
-        return Ok(createdActivity);
+        ActivityDTOResponse activityDtoResponse = await _activityService.AddActivity(activityDtoRequest);
+        return Ok(activityDtoResponse);
     }
 
     
+    //GET Rest API.
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ActivityDTOResponse>>> GetAllActivities()
     {
@@ -33,7 +37,8 @@ public class ActivityController: ControllerBase
         return Ok(allActivityDtoResponse);
     }
 
-
+    
+    //GET Rest API for get one activity.
     [HttpGet("{id}")]
     public async Task<ActionResult<ActivityDTOResponse>> GetActivityById(int id)
     {
@@ -41,6 +46,8 @@ public class ActivityController: ControllerBase
         return Ok(activityDtoResponse);
     }
 
+    
+    //UPDATE Rest API.
     [HttpPut("{id}")]
     public async Task<ActionResult<ActivityDTOResponse>> UpdateActivity(int id , ActivityDTORequest activityDtoRequest)
     {
@@ -48,6 +55,8 @@ public class ActivityController: ControllerBase
         return Ok(activityDtoResponse);
     }
 
+    
+    //DELETE Rest API.
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteActivity(int id)
     {
@@ -55,7 +64,6 @@ public class ActivityController: ControllerBase
 
         if (isDeleted)
             return NoContent();
-        
         else
             return NotFound();
     }

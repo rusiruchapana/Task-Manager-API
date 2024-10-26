@@ -6,9 +6,11 @@ namespace TaskManagerAPI.Repositories.Interface;
 
 public interface IActivityRepository
 {
-    Task<ActivityDTOResponse> AddActivity(Activity activity);
+    
     Task<IEnumerable<Activity>> GetAllActivities();
     Task<Activity> GetActivityById(int id);
     Task<Activity> UpdateActivity(int id, ActivityDTORequest activityDtoRequest);
     Task<bool> DeleteActivity(int id);
+    Task<Activity> AddActivity(ActivityDTORequest activityDtoRequest);
+    
 }
