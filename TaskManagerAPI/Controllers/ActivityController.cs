@@ -25,4 +25,14 @@ public class ActivityController: ControllerBase
         return Ok(createdActivity);
     }
 
+    
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ActivityDTOResponse>>> GetAllActivities()
+    {
+        IEnumerable<ActivityDTOResponse> allActivityDtoResponse = await _activityService.GetAllActivities();
+        return Ok(allActivityDtoResponse);
+    }
+
+
+
 }

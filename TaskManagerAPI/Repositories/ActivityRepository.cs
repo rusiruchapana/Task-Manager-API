@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TaskManagerAPI.Data;
 using TaskManagerAPI.DTO.Response;
 using TaskManagerAPI.Models;
@@ -28,5 +29,11 @@ public class ActivityRepository: IActivityRepository
         );
         
         return response;
+    }
+
+    public async Task<IEnumerable<Activity>> GetAllActivities()
+    {
+         IEnumerable<Activity> activities = await _context.Activities.ToListAsync();
+         return activities;
     }
 }
