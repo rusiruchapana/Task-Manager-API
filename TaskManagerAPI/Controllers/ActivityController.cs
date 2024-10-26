@@ -67,8 +67,4 @@ public class ActivityController: ControllerBase
         else
             return NotFound();
     }
-
-
-
-
 }
