@@ -1,3 +1,4 @@
+using TaskManagerAPI.DTO.Request;
 using TaskManagerAPI.DTO.Response;
 using TaskManagerAPI.Models;
 
@@ -8,4 +9,5 @@ public interface IActivityRepository
     Task<ActivityDTOResponse> AddActivity(Activity activity);
     Task<IEnumerable<Activity>> GetAllActivities();
     Task<Activity> GetActivityById(int id);
+    Task<Activity> UpdateActivity(int id, ActivityDTORequest activityDtoRequest);
 }

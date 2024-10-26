@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TaskManagerAPI.Data;
+using TaskManagerAPI.DTO.Request;
 using TaskManagerAPI.DTO.Response;
 using TaskManagerAPI.Models;
 using TaskManagerAPI.Repositories.Interface;
@@ -41,5 +42,18 @@ public class ActivityRepository: IActivityRepository
     {
         Activity activity = await _context.Activities.FindAsync(id);
         return activity;
+    }
+
+    public async Task<Activity> UpdateActivity(int id, ActivityDTORequest activityDtoRequest)
+    {
+        Activity oldActivity = await _context.Activities.FindAsync(id);
+        oldActivity.Title = activityDtoRequest.Title;
+        oldActivity.Description = activityDtoRequest.Description;
+        oldActivity.IsCompleted = activityDtoRequest.IsCompleted;
+
+        _context.Activities.Update(oldActivity);
+        await _context.SaveChangesAsync();
+        
+        return oldActivity;
     }
 }

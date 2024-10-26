@@ -41,5 +41,14 @@ public class ActivityController: ControllerBase
         return Ok(activityDtoResponse);
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ActivityDTOResponse>> UpdateActivity(int id , ActivityDTORequest activityDtoRequest)
+    {
+        ActivityDTOResponse activityDtoResponse = await _activityService.UpdateActivity(id , activityDtoRequest);
+        return Ok(activityDtoResponse);
+    }
+    
+
+
 
 }
