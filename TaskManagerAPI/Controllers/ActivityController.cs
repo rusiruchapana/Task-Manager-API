@@ -34,5 +34,12 @@ public class ActivityController: ControllerBase
     }
 
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ActivityDTOResponse>> GetActivityById(int id)
+    {
+        ActivityDTOResponse activityDtoResponse = await _activityService.GetActivityById(id);
+        return Ok(activityDtoResponse);
+    }
+
 
 }

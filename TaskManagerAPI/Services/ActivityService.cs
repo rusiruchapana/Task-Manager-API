@@ -42,4 +42,17 @@ public class ActivityService
         
         return activityDtoResponses;
     }
+
+    public async Task<ActivityDTOResponse> GetActivityById(int id)
+    {
+        Activity activity = await _activityRepository.GetActivityById(id);
+        ActivityDTOResponse activityDtoResponse = new ActivityDTOResponse
+        (
+            activity.Id,
+            activity.Title,
+            activity.Description,
+            activity.IsCompleted
+        );
+        return activityDtoResponse;
+    }
 }

@@ -36,4 +36,10 @@ public class ActivityRepository: IActivityRepository
          IEnumerable<Activity> activities = await _context.Activities.ToListAsync();
          return activities;
     }
+
+    public async Task<Activity> GetActivityById(int id)
+    {
+        Activity activity = await _context.Activities.FindAsync(id);
+        return activity;
+    }
 }
