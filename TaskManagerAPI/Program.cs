@@ -4,19 +4,27 @@ using TaskManagerAPI.Data;
 using TaskManagerAPI.Repositories;
 using TaskManagerAPI.Repositories.Interface;
 using TaskManagerAPI.Services;
+using TaskManagerAPI.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
 builder.Services.AddControllers();
 builder.Services.AddScoped<ActivityService>();
 builder.Services.AddScoped<IActivityRepository, ActivityRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
+builder.Services.AddAuthentication("CookieAuthentication")
+    .AddCookie("CookieAuthentication", options =>
+    {
+        options.LoginPath = "/api/Auth/Login";
+    });
+
+builder.Services.AddAuthorization();
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -66,6 +74,8 @@ app.MapGet("/weatherforecast", () =>
 
 //Map controllers.
 app.MapControllers();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();
 
